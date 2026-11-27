@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kitogl"
+dynamic = ["version"]
+description = "An OpenGL 2.1 / ES 2 video compositor for PySide6 and PySide2: YUV to RGB, cover, box-filtered shrinking, overlay and scene transitions."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [{name = "disruptedtag"}]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Multimedia :: Video :: Display",
+]
+# PySide6 or PySide2 is required at run time; KitoGL uses whichever the application already has.
+
+[project.urls]
+Homepage = "https://github.com/disruptedtag/kitogl"
+
+[tool.setuptools.dynamic]
+version = {attr = "kitogl.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

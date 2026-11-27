@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="97.7 142.8 1190.3 727.4" role="img" aria-labelledby="titulo-svg">
+  <title id="titulo-svg">Kito logo</title>
+  <polygon id="k-cuerpo" fill="#30339F" points="434.7,154.9 183.9,150.8 105.7,276.1 374.8,858.6 777.6,847.2 949.4,862.2 1280,862.2 842.1,481.6 913.8,168.7 686.5,156.8 569.3,230.1 540.6,368.8"/>
+  <polygon id="k-tallo" fill="#74C4EA" points="207.8,166.2 425.3,169.8 753.7,832.8 525,839.3"/>
+  <polygon id="k-brazo" fill="#F7DC45" points="699,172.5 895.2,182.7 825.5,487 824.3,491.3 646.8,524.7 638.7,522.1"/>
+  <polygon id="k-pierna" fill="#FF6CE4" points="638.7,522.1 825.5,487 1239.9,847.2 955.7,847.2"/>
+</svg>
