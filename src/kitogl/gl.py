@@ -26,8 +26,19 @@ def set_uniform(program, name: str, *values) -> None:
     The generic overloads misbehave in one binding or the other: `(location, int|float)` picks a wrong one in PySide2
     (the three planes then read one texture), `(location, QVector2D)` fails there, and the name-as-str forms want bytes in
     PySide6. `setUniformValue1i`, `setUniformValue1f` and `(location, x, y)` exist in both.
+
+    The location is looked up once per program and kept on the program object (programs here are linked once and never
+    again, so a location cannot change). `glGetUniformLocation` is a query: the driver answers it only after catching up
+    with what is queued before it, and asked ~30 times per frame at 180 Hz it kept the interface thread busy for a whole
+    core with an NVIDIA card (0.97 cores in KitoGL 0.1.0; 0.06-0.18 with the locations kept, 1080p and 4K video).
     """
-    location = program.uniformLocation(name)
+    locations = getattr(program, "_kitogl_uniforms", None)
+    if locations is None:
+        locations = {}
+        program._kitogl_uniforms = locations
+    location = locations.get(name)
+    if location is None:
+        location = locations[name] = program.uniformLocation(name)
     if len(values) == 2:
         program.setUniformValue(location, float(values[0]), float(values[1]))
     elif isinstance(values[0], int):

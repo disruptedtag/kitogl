@@ -36,7 +36,7 @@ It does not decode. Hand it pictures from PyAV or anything else that gives plane
 From a release. Each release's notes give the wheel's SHA-256; add it as `#sha256=...` to the URL and pip checks it:
 
 ```text
-pip install "kitogl @ https://github.com/disruptedtag/kitogl/releases/download/v0.1.0/kitogl-0.1.0-py3-none-any.whl"
+pip install "kitogl @ https://github.com/disruptedtag/kitogl/releases/download/v0.1.1/kitogl-0.1.1-py3-none-any.whl"
 ```
 
 ## Use

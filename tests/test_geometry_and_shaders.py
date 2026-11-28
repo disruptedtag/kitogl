@@ -61,5 +61,43 @@ class ShaderTests(unittest.TestCase):
         self.assertEqual(output.strip(), "[]")
 
 
+class _Program:
+    """Counts `uniformLocation` queries and records what was set, like a linked QOpenGLShaderProgram."""
+
+    def __init__(self) -> None:
+        self.queries, self.set = [], []
+
+    def uniformLocation(self, name):  # noqa: N802 - Qt's name
+        self.queries.append(name)
+        return {"amount": 3, "tex": 5}.get(name, -1)
+
+    def setUniformValue(self, location, x, y):  # noqa: N802
+        self.set.append((location, x, y))
+
+    def setUniformValue1i(self, location, value):  # noqa: N802
+        self.set.append((location, value))
+
+    def setUniformValue1f(self, location, value):  # noqa: N802
+        self.set.append((location, value))
+
+
+class UniformTests(unittest.TestCase):
+    def test_a_location_is_asked_once_per_program_and_name(self) -> None:
+        # Regression (0.1.1): asked on every frame, the location query kept a whole CPU core busy at 180 Hz.
+        from kitogl.gl import set_uniform
+
+        first, second = _Program(), _Program()
+        for _ in range(3):
+            set_uniform(first, "amount", 0.5)
+            set_uniform(first, "tex", 1)
+        set_uniform(first, "missing", 1.0, 2.0)
+        set_uniform(first, "missing", 1.0, 2.0)
+        set_uniform(second, "amount", 0.25)
+        self.assertEqual(first.queries, ["amount", "tex", "missing"])
+        self.assertEqual(second.queries, ["amount"])  # another program: its own locations
+        self.assertEqual(first.set[:2], [(3, 0.5), (5, 1)])
+        self.assertEqual(first.set[-1], (-1, 1.0, 2.0))  # a uniform the shader optimised away stays a no-op
+
+
 if __name__ == "__main__":
     unittest.main()
